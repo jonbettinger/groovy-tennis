@@ -1,63 +1,74 @@
 package tennis
 
-import junit.framework.TestCase
+import org.junit.Before 
+import org.junit.Test 
 import static Score.*;
 
-class TennisGameTest extends TestCase {
+class TennisGameTest {
 	def player1
 	def player2
 	Game game
 	
+	@Before
 	void setUp() {
 		game = new Game()
 		player1 = game.player1
 		player2 = game.player2
 	}
 	
-	void testCanGreateAGame() {
-		assertNotNull new Game()
+	@Test
+	void canGreateAGame() {
+		assert null != new Game()
 	}
 	
-	void testGetCurrentScoreYieldsZeroAtStart() {
+	@Test
+	void initialScoreIsLoveLove() {
 		assert [Love, Love] == game.score
 	}
 	
-	void testGetPlayer1CurrentScoreYieldsFifteenAfterPlayerScoresOnce() {
+	@Test
+	void gameScoreYieldsFifteenLoveAfterPlayer1ScoresOnce() {
 		game.scorePoint(player1)
 		assert [Fifteen, Love] == game.score
 	}
 	
-	void testGetPlayer2CurrentScoreYieldsFifteenAfterPlayerScoresOnce() {
+	@Test
+	void gameScoreYieldsLoveFifteenAfterPlayer2ScoresOnce() {
 		game.scorePoint(player2)
 		assert [Love, Fifteen] == game.score
 		
 	}
 	
-	void testGetCurrentScoreYieldsThirtyAfterPlayerScoresTwice() {		
+	@Test
+	void gameScoreYieldsThirtyLoveAfterPlayer1ScoresTwice() {		
 		2.times {  game.scorePoint(player1) }
 		assert [Thirty, Love] == game.score
 		
 	}
 	
-	void testGetCurrentScoreYieldsFifteenAllAfterEachPlayerScoresOnce() {
+	@Test
+	void gameScoreYieldsFifteenAllAfterEachPlayerScoresOnce() {
 		game.scorePoint(player1)
 		game.scorePoint(player2)
 		assert [Fifteen, Fifteen] == game.score
 	}
 	
-	void testGetCurrentScoreYieldsFortyLoveAfterPlayerScoresThrice() {		
+	@Test
+	void gameScoreYieldsFortyLoveAfterPlayer1ScoresThrice() {		
 		3.times {  game.scorePoint(player1) }
 		assert [Forty, Love] == game.score
 	}
 	
-	void testGetCurrentScoreYieldsWinnerAfterPlayerWith40PointsScores() {		
+	@Test
+	void gameScoreYieldsWinnerAfterPlayer1ScoresWithForty() {		
 		3.times {  game.scorePoint player1  }
 		assert [Forty, Love] == game.score
 		game.scorePoint player1
 		assert [Winner, Loser] == game.score
 	}
 	
-	void testGetCurrentScoreYieldsDeuceWhenBothPlayersScoreThreeTimes() {		
+	@Test
+	void gameScoreYieldsDeuceAfterBothPlayerScoreThrice() {		
 		3.times { 
 			game.scorePoint player1  
 			game.scorePoint player2
@@ -65,7 +76,8 @@ class TennisGameTest extends TestCase {
 		assert [Deuce, Deuce] == game.score
 	}
 	
-	void testGetCurrentScoreYieldsAdvantageForDeuceGameWhenAPlayerScores() {		
+	@Test
+	void gameScoreYieldsAdvangeAfterPlayer1ScoresWithDeuceScore() {		
 		3.times { 
 			game.scorePoint player1  
 			game.scorePoint player2
@@ -76,7 +88,8 @@ class TennisGameTest extends TestCase {
 	}
 	
 	
-	void testGetCurrentScoreYieldsDeuceForAdvantageGameWhenDownPlayerScores() {		
+	@Test
+	void gameScoreYieldsDeuceWhenDownPlayerScores() {		
 		4.times { 
 			game.scorePoint player1  
 			game.scorePoint player2
@@ -84,7 +97,8 @@ class TennisGameTest extends TestCase {
 		assert [Deuce, Deuce] == game.score
 	}
 	
-	void testPlayerWithAdvantageWinsAfterScoring() {		
+	@Test
+	void playerWithAdvantageWinsAfterScoring() {		
 		3.times { 
 			game.scorePoint player1  
 			game.scorePoint player2
